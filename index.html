@@ -274,6 +274,11 @@
     .breakdown tr.data-row.ded td { color: var(--green); }
     .breakdown tr.data-row.empty td { color: #bbb; font-style: italic; }
     .breakdown tr.data-row.empty td:last-child { color: #bbb; }
+    .breakdown tr.data-row.sub-item td {
+      padding: 8px 18px 8px 36px; border-bottom: 1px solid var(--border);
+      font-size: 13px; color: var(--text-mid);
+    }
+    .breakdown tr.data-row.sub-item td:last-child { text-align: right; font-weight: 500; }
     .breakdown tr.sub-row td {
       padding: 13px 18px; font-size: 15px; font-weight: 800;
       background: var(--bg); border-top: 2px solid var(--border);
@@ -929,10 +934,12 @@ function $$(n) {
 function renderResults() {
   const { level, residency, housing, athleticAid, scholarship, includeAcademic } = S;
   const coa   = COA[level][residency][housing];
+  const NEZ   = housing === 'offcampus' ? 1200 : 0;
+  const coaTotal = coa.total + NEZ;
   const acadAid = (includeAcademic && scholarship && !scholarship.pending) ? scholarship.amount : 0;
   const totalAid = athleticAid + acadAid;
-  const remaining = Math.max(0, coa.total - totalAid);
-  const overCOA = totalAid > coa.total;
+  const remaining = Math.max(0, coaTotal - totalAid);
+  const overCOA = totalAid > coaTotal;
 
   const resMap = { resident:'Idaho Resident', nonresident:'Non-Resident', international:'International' };
   const houMap = {
@@ -945,14 +952,19 @@ function renderResults() {
   document.getElementById('rMeta').textContent  =
     `${levelMap[level]} · ${resMap[residency]} · ${houMap[housing]}`;
 
+  const nezRow = NEZ > 0
+    ? `<tr class="data-row sub-item"><td>↳ North End Zone (required — off campus)</td><td>${$$(NEZ)}</td></tr>`
+    : '';
+
   let html = `<tbody>
     <tr class="sec-head"><td colspan="2">2026–2027 Cost of Attendance</td></tr>
-    <tr class="data-row"><td>Tuition &amp; Fees</td><td>${$$(coa.tuition)}</td></tr>
+    <tr class="data-row"><td>Tuition</td><td>${$$(coa.tuition)}</td></tr>
     <tr class="data-row"><td>Books &amp; Supplies</td><td>${$$(coa.books)}</td></tr>
     <tr class="data-row"><td>Room &amp; Board</td><td>${$$(coa.roomboard)}</td></tr>
+    ${nezRow}
     <tr class="data-row"><td>Transportation</td><td>${$$(coa.transport)}</td></tr>
     <tr class="data-row"><td>Personal / Miscellaneous</td><td>${$$(coa.personal)}</td></tr>
-    <tr class="sub-row"><td>Total Cost of Attendance</td><td>${$$(coa.total)}</td></tr>
+    <tr class="sub-row"><td>Total Cost of Attendance</td><td>${$$(coaTotal)}</td></tr>
 
     <tr class="sec-head"><td colspan="2">Aid Applied</td></tr>`;
 
@@ -973,6 +985,7 @@ function renderResults() {
   html += `<tr class="sub-row"><td>Total Aid Applied</td><td>− ${$$(totalAid)}</td></tr>`;
 
   const zeroOut = overCOA || remaining === 0;
+
   html += `<tr class="total-row ${zeroOut?'zero':''}">
     <td>Estimated Remaining Cost to Athlete</td>
     <td>${zeroOut ? '$0' : $$(remaining)}</td>
