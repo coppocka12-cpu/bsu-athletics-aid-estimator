@@ -248,14 +248,83 @@
     @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
     @media print {
-      .site-header, .progress-bar, .results-actions, .sem-toggle-wrap, .hero, .site-footer { display: none !important; }
+      .site-header, .progress-bar, .results-actions, .sem-toggle-wrap, .hero, .site-footer, .disclaimer-overlay { display: none !important; }
       .card { box-shadow: none; border: none; padding: 0; }
       .main { padding: 0; }
       body { background: white; }
     }
+
+    /* ── DISCLAIMER OVERLAY ── */
+    .disclaimer-overlay {
+      position: fixed; inset: 0; z-index: 9999;
+      background: rgba(0, 20, 70, 0.88);
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+    }
+    .disclaimer-modal {
+      background: var(--white); border-radius: 12px;
+      max-width: 620px; width: 100%;
+      box-shadow: 0 20px 60px rgba(0,0,0,.4);
+      overflow: hidden;
+    }
+    .disclaimer-modal-header {
+      background: var(--blue); color: var(--white);
+      padding: 24px 32px 20px; border-bottom: 4px solid var(--orange);
+    }
+    .disclaimer-modal-header .dm-eyebrow {
+      font-size: 10px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; opacity: .7; margin-bottom: 6px;
+    }
+    .disclaimer-modal-header h2 {
+      font-size: 22px; font-weight: 900; line-height: 1.2;
+    }
+    .disclaimer-modal-body {
+      padding: 28px 32px 24px; max-height: 50vh; overflow-y: auto;
+    }
+    .disclaimer-modal-body p {
+      font-size: 14px; color: var(--text); line-height: 1.7; margin-bottom: 14px;
+    }
+    .disclaimer-modal-body p:last-child { margin-bottom: 0; }
+    .disclaimer-modal-body strong { color: var(--text); }
+    .disclaimer-modal-footer {
+      padding: 20px 32px 28px;
+      border-top: 1px solid var(--border);
+      display: flex; flex-direction: column; align-items: center; gap: 12px;
+    }
+    .btn-accept {
+      background: var(--orange); color: var(--white); border: none;
+      padding: 15px 48px; font-size: 16px; font-weight: 800; border-radius: 5px;
+      cursor: pointer; width: 100%; letter-spacing: .3px; transition: background .2s;
+    }
+    .btn-accept:hover { background: var(--orange-dk); }
+    .disclaimer-modal-footer .dm-note {
+      font-size: 12px; color: var(--text-light); text-align: center; line-height: 1.5;
+    }
   </style>
 </head>
 <body>
+
+<!-- DISCLAIMER OVERLAY -->
+<div class="disclaimer-overlay" id="disclaimerOverlay">
+  <div class="disclaimer-modal">
+    <div class="disclaimer-modal-header">
+      <div class="dm-eyebrow">Boise State University Athletics</div>
+      <h2>Important Disclaimer — Please Read Before Continuing</h2>
+    </div>
+    <div class="disclaimer-modal-body">
+      <p>This Athletics Aid Estimator is intended to provide a <strong>general estimate only</strong> of how athletic and academic aid may apply toward your cost of attendance at Boise State University for the 2026–2027 academic year.</p>
+      <p><strong>This tool does not constitute an official financial aid offer.</strong> All figures shown are based on average costs and may not reflect your individual cost of attendance. Actual costs may vary based on your specific program, course selections, section enrollment, and individual circumstances.</p>
+      <p><strong>Academic scholarship awards</strong> are subject to eligibility requirements, application deadlines, and GPA thresholds. Meeting minimum GPA requirements does not guarantee an award. Contact the BSU Office of Financial Aid for official scholarship information.</p>
+      <p><strong>Athletic aid</strong> is governed by NCAA regulations and Boise State University institutional policy. Only the official Statement of Athletics Financial Aid signed by an authorized athletics administrator constitutes an official offer of athletic aid.</p>
+      <p><strong>International student-athletes</strong> may be subject to U.S. federal income tax on room, board, and cost of attendance portions of athletic aid received. Please consult a tax professional for guidance.</p>
+      <p>For official cost of attendance figures and financial aid information, please visit <strong>boisestate.edu/financialaid</strong> or contact the Athletics Financial Aid Office directly.</p>
+    </div>
+    <div class="disclaimer-modal-footer">
+      <button class="btn-accept" onclick="acceptDisclaimer()">I Understand — Continue to Estimator</button>
+      <p class="dm-note">By continuing, you acknowledge that this tool provides estimates only and does not represent an official offer of financial aid.</p>
+    </div>
+  </div>
+</div>
 
 <!-- HEADER -->
 <header class="site-header">
@@ -570,6 +639,9 @@ const STEP_LABELS = ['About You','Living Situation','Athletic Aid','Academic Aid
 // ═══════════════════════════════════════════════════════════════
 // NAVIGATION
 // ═══════════════════════════════════════════════════════════════
+function acceptDisclaimer() {
+  document.getElementById('disclaimerOverlay').style.display = 'none';
+}
 function startEstimator() {
   document.getElementById('landing').classList.add('hidden');
   document.getElementById('estimator').classList.remove('hidden');
