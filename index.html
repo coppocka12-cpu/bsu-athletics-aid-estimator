@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boise State Athletics | Aid Estimator 2026–2027</title>
+  <style>
+    :root {
+      --blue:       #0033A0;
+      --blue-dark:  #001f6b;
+      --blue-light: #e8edf8;
+      --orange:     #D64309;
+      --orange-dk:  #bf3b08;
+      --green:      #2e7d32;
+      --green-bg:   #f0f7f0;
+      --warn-bg:    #fff8e1;
+      --warn-bdr:   #f9a825;
+      --warn-text:  #5d4037;
+      --border:     #dde1e8;
+      --bg:         #f4f5f9;
+      --text:       #1a1a1a;
+      --text-mid:   #555;
+      --text-light: #888;
+      --white:      #ffffff;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ───────────────────────────────────────────── */
+    .site-header { background: var(--blue); }
+    .header-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      max-width: 1100px; margin: 0 auto; padding: 18px 32px;
+    }
+    .header-logo { display: flex; align-items: center; gap: 14px; }
+    .logo-circle {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: var(--white); display: flex; align-items: center;
+      justify-content: center; flex-shrink: 0;
+    }
+    .logo-circle svg { width: 36px; height: 36px; }
+    .header-text { color: var(--white); }
+    .header-text .univ {
+      font-size: 11px; font-weight: 500; letter-spacing: 1.8px;
+      text-transform: uppercase; opacity: .75;
+    }
+    .header-text .dept { font-size: 19px; font-weight: 800; letter-spacing: .3px; }
+    .header-stripe { height: 5px; background: var(--orange); }
+
+    /* ── HERO ─────────────────────────────────────────────── */
+    .hero {
+      background: linear-gradient(145deg, var(--blue) 0%, var(--blue-dark) 100%);
+      color: var(--white); text-align: center; padding: 88px 24px 80px;
+    }
+    .hero-tag {
+      display: inline-block; background: var(--orange); color: var(--white);
+      font-size: 11px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; padding: 5px 16px; border-radius: 20px;
+      margin-bottom: 22px;
+    }
+    .hero h1 {
+      font-size: 44px; font-weight: 900; line-height: 1.1;
+      max-width: 640px; margin: 0 auto 20px; letter-spacing: -.5px;
+    }
+    .hero p {
+      font-size: 18px; opacity: .82; line-height: 1.65;
+      max-width: 520px; margin: 0 auto 38px;
+    }
+    .hero-features {
+      display: flex; justify-content: center; gap: 32px;
+      flex-wrap: wrap; margin-bottom: 40px; opacity: .85;
+    }
+    .hero-feature { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+    .hero-feature span { font-size: 20px; }
+    .btn-hero {
+      background: var(--orange); color: var(--white);
+      border: none; padding: 17px 44px; font-size: 17px; font-weight: 800;
+      border-radius: 4px; cursor: pointer; letter-spacing: .3px;
+      transition: background .2s, transform .1s; display: inline-block;
+    }
+    .btn-hero:hover { background: var(--orange-dk); transform: translateY(-2px); }
+    .hero-note { font-size: 13px; opacity: .5; margin-top: 18px; }
+
+    /* ── PROGRESS ─────────────────────────────────────────── */
+    .progress-bar {
+      background: var(--white); border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,.07);
+    }
+    .progress-inner {
+      max-width: 720px; margin: 0 auto; padding: 18px 24px;
+      display: flex; align-items: center; gap: 0;
+    }
+    .ps-item { display: flex; align-items: center; flex: 1; }
+    .ps-circle {
+      width: 30px; height: 30px; border-radius: 50%;
+      background: var(--border); color: var(--text-light);
+      font-size: 12px; font-weight: 700; display: flex;
+      align-items: center; justify-content: center; flex-shrink: 0;
+      transition: all .3s;
+    }
+    .ps-circle.active  { background: var(--blue);   color: var(--white); }
+    .ps-circle.done    { background: var(--orange);  color: var(--white); }
+    .ps-label {
+      font-size: 11px; color: var(--text-light); font-weight: 500;
+      margin-left: 7px; white-space: nowrap;
+    }
+    .ps-label.active { color: var(--blue); font-weight: 700; }
+    .ps-line {
+      flex: 1; height: 2px; background: var(--border); margin: 0 6px;
+      transition: background .3s;
+    }
+    .ps-line.done { background: var(--orange); }
+
+    /* ── MAIN / CARD ──────────────────────────────────────── */
+    .main { max-width: 720px; margin: 0 auto; padding: 40px 20px 100px; }
+    .card {
+      background: var(--white); border-radius: 10px; padding: 44px 44px 36px;
+      box-shadow: 0 2px 16px rgba(0,0,0,.08); border: 1px solid var(--border);
+    }
+    @media (max-width: 600px) { .card { padding: 24px 20px; } }
+
+    .card-eyebrow {
+      font-size: 11px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--orange); margin-bottom: 8px;
+    }
+    .card h2 { font-size: 27px; font-weight: 900; line-height: 1.15; color: var(--text); }
+    .card .card-sub {
+      font-size: 15px; color: var(--text-mid); margin-top: 8px;
+      line-height: 1.55; margin-bottom: 32px;
+    }
+
+    /* ── FIELDS ───────────────────────────────────────────── */
+    .field { margin-bottom: 28px; }
+    .field-label {
+      display: block; font-size: 14px; font-weight: 700;
+      color: var(--text); margin-bottom: 9px;
+    }
+    .field-hint { font-size: 12px; color: var(--text-light); margin-top: 5px; }
+
+    select, input[type="number"] {
+      width: 100%; padding: 13px 16px; border: 2px solid var(--border);
+      border-radius: 5px; font-size: 15px; color: var(--text);
+      background: var(--white); transition: border-color .2s;
+      -webkit-appearance: none; appearance: none;
+    }
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%23555' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 42px;
+      cursor: pointer;
+    }
+    select:focus, input:focus { outline: none; border-color: var(--blue); }
+
+    .dollar-wrap { position: relative; }
+    .dollar-sign {
+      position: absolute; left: 14px; top: 50%;
+      transform: translateY(-50%); font-size: 16px;
+      font-weight: 600; color: var(--text-mid); pointer-events: none;
+    }
+    .dollar-wrap input { padding-left: 30px; }
+
+    /* ── OPTION CARDS ─────────────────────────────────────── */
+    .opt-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    }
+    .opt-grid.cols3 { grid-template-columns: 1fr 1fr 1fr; }
+    @media (max-width: 600px) {
+      .opt-grid.cols3 { grid-template-columns: 1fr 1fr; }
+    }
+
+    .opt-card {
+      border: 2px solid var(--border); border-radius: 7px;
+      padding: 18px 14px; cursor: pointer; text-align: center;
+      transition: all .18s; position: relative; user-select: none;
+    }
+    .opt-card:hover { border-color: var(--blue); background: var(--blue-light); }
+    .opt-card.sel   { border-color: var(--blue); background: var(--blue-light); }
+    .opt-card input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+    .opt-icon  { font-size: 28px; margin-bottom: 7px; }
+    .opt-title { font-size: 14px; font-weight: 700; color: var(--text); }
+    .opt-card.sel .opt-title { color: var(--blue); }
+    .opt-sub   { font-size: 12px; color: var(--text-mid); margin-top: 3px; }
+
+    /* ── SCHOLARSHIP BOX ──────────────────────────────────── */
+    .schol-box {
+      border: 2px solid var(--border); border-radius: 7px;
+      padding: 20px; margin-top: 16px; transition: all .2s;
+    }
+    .schol-box.match   { border-color: var(--green); background: var(--green-bg); }
+    .schol-box.nomatch { background: #fafafa; }
+    .schol-name   { font-size: 16px; font-weight: 800; color: var(--green); }
+    .schol-amount { font-size: 24px; font-weight: 900; color: var(--green); margin: 5px 0 4px; }
+    .schol-note   { font-size: 13px; color: var(--text-mid); line-height: 1.5; }
+    .schol-nomatch-text { font-size: 14px; color: var(--text-light); line-height: 1.5; }
+
+    /* ── ALERTS ───────────────────────────────────────────── */
+    .alert {
+      display: flex; gap: 11px; align-items: flex-start;
+      border-radius: 7px; padding: 14px 16px;
+      font-size: 14px; line-height: 1.5; margin-top: 14px;
+    }
+    .alert-warn { background: var(--warn-bg); border: 1px solid var(--warn-bdr); color: var(--warn-text); }
+    .alert-info { background: var(--blue-light); border: 1px solid #90a4d4; color: var(--blue); }
+    .alert-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+
+    /* ── TOGGLE CHECKBOX ──────────────────────────────────── */
+    .toggle-row {
+      display: flex; align-items: center; gap: 12px;
+      border: 2px solid var(--border); border-radius: 7px;
+      padding: 14px 16px; cursor: pointer; margin-top: 14px;
+      transition: border-color .2s;
+    }
+    .toggle-row:hover { border-color: var(--blue); }
+    .toggle-row input[type="checkbox"] {
+      width: 18px; height: 18px; accent-color: var(--blue);
+      cursor: pointer; flex-shrink: 0;
+    }
+    .toggle-text { font-size: 14px; font-weight: 600; color: var(--text); }
+
+    /* ── NAV BUTTONS ──────────────────────────────────────── */
+    .nav-btns {
+      display: flex; justify-content: space-between;
+      align-items: center; margin-top: 36px; gap: 12px;
+    }
+    .btn-back {
+      background: transparent; color: var(--blue);
+      border: 2px solid var(--blue); padding: 12px 28px;
+      font-size: 15px; font-weight: 700; border-radius: 5px;
+      cursor: pointer; transition: background .18s;
+    }
+    .btn-back:hover { background: var(--blue-light); }
+    .btn-next {
+      background: var(--blue); color: var(--white);
+      border: none; padding: 13px 36px;
+      font-size: 15px; font-weight: 800; border-radius: 5px;
+      cursor: pointer; margin-left: auto; transition: background .18s;
+      letter-spacing: .2px;
+    }
+    .btn-next:hover { background: var(--blue-dark); }
+
+    /* ── RESULTS ──────────────────────────────────────────── */
+    .results-top { text-align: center; margin-bottom: 32px; }
+    .sport-pill {
+      display: inline-block; background: var(--orange); color: var(--white);
+      font-size: 12px; font-weight: 800; letter-spacing: 1px;
+      text-transform: uppercase; padding: 5px 16px; border-radius: 20px;
+      margin-bottom: 12px;
+    }
+    .results-top h2 { font-size: 30px; font-weight: 900; }
+    .results-top p  { font-size: 15px; color: var(--text-mid); margin-top: 6px; }
+
+    .breakdown {
+      width: 100%; border-collapse: collapse; margin-top: 4px;
+    }
+    .breakdown tr.sec-head td {
+      background: var(--blue); color: var(--white);
+      font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; padding: 10px 18px;
+    }
+    .breakdown tr.data-row td {
+      padding: 13px 18px; border-bottom: 1px solid var(--border);
+      font-size: 15px;
+    }
+    .breakdown tr.data-row td:last-child { text-align: right; font-weight: 500; }
+    .breakdown tr.data-row.ded td { color: var(--green); }
+    .breakdown tr.data-row.empty td { color: #bbb; font-style: italic; }
+    .breakdown tr.data-row.empty td:last-child { color: #bbb; }
+    .breakdown tr.sub-row td {
+      padding: 13px 18px; font-size: 15px; font-weight: 800;
+      background: var(--bg); border-top: 2px solid var(--border);
+      border-bottom: 2px solid var(--border);
+    }
+    .breakdown tr.sub-row td:last-child { text-align: right; }
+    .breakdown tr.total-row td {
+      background: var(--blue); color: var(--white);
+      padding: 20px 18px; font-size: 20px; font-weight: 900;
+    }
+    .breakdown tr.total-row td:last-child { text-align: right; }
+    .breakdown tr.total-row.zero td { background: var(--green); }
+
+    .results-disclaimer {
+      font-size: 12px; color: var(--text-light); line-height: 1.65;
+      margin-top: 22px; padding: 16px 18px; background: var(--bg);
+      border-radius: 7px; border: 1px solid var(--border);
+    }
+    .results-disclaimer strong { color: var(--text-mid); }
+
+    .results-actions {
+      display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap;
+    }
+    .btn-restart {
+      background: transparent; color: var(--blue);
+      border: 2px solid var(--blue); padding: 12px 26px;
+      font-size: 15px; font-weight: 700; border-radius: 5px;
+      cursor: pointer; transition: background .18s;
+    }
+    .btn-restart:hover { background: var(--blue-light); }
+    .btn-print {
+      background: var(--blue); color: var(--white);
+      border: none; padding: 13px 30px;
+      font-size: 15px; font-weight: 800; border-radius: 5px;
+      cursor: pointer; transition: background .18s;
+    }
+    .btn-print:hover { background: var(--blue-dark); }
+
+    /* ── DIVIDER ──────────────────────────────────────────── */
+    .divider { height: 1px; background: var(--border); margin: 26px 0; }
+
+    /* ── FOOTER ───────────────────────────────────────────── */
+    .site-footer {
+      background: var(--blue); color: rgba(255,255,255,.7);
+      text-align: center; padding: 26px 24px; font-size: 13px;
+      margin-top: 60px;
+    }
+    .site-footer a { color: var(--orange); text-decoration: none; }
+
+    /* ── UTILS ────────────────────────────────────────────── */
+    .hidden { display: none !important; }
+    .fade-in { animation: fadeUp .28s ease; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── PRINT ────────────────────────────────────────────── */
+    @media print {
+      .site-header, .progress-bar, .results-actions,
+      .results-disclaimer ~ *, .hero, .site-footer { display: none !important; }
+      .card { box-shadow: none; border: none; padding: 0; }
+      .main { padding: 0; }
+      body { background: white; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════ HEADER -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-logo">
+      <div class="logo-circle">
+        <!-- Bronco head SVG silhouette -->
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <text x="50" y="72" font-size="68" text-anchor="middle"
+                font-family="Georgia,serif" font-weight="900" fill="#0033A0">B</text>
+        </svg>
+      </div>
+      <div class="header-text">
+        <div class="univ">Boise State University</div>
+        <div class="dept">Athletics · Aid Estimator</div>
+      </div>
+    </div>
+  </div>
+  <div class="header-stripe"></div>
+</header>
+
+<!-- ═══════════════════════════════════════════════════════ LANDING -->
+<div id="landing">
+  <div class="hero">
+    <div class="hero-tag">2026 – 2027 Academic Year</div>
+    <h1>Your Athletics Aid,<br>Clearly Estimated</h1>
+    <p>See exactly how your athletic scholarship and academic aid apply toward your cost of attendance — all in one place.</p>
+    <div class="hero-features">
+      <div class="hero-feature"><span>🏈</span> All Boise State Sports</div>
+      <div class="hero-feature"><span>🎓</span> Academic Scholarships</div>
+      <div class="hero-feature"><span>📊</span> Full Aid Breakdown</div>
+      <div class="hero-feature"><span>🏔️</span> Resident &amp; Non-Resident</div>
+    </div>
+    <button class="btn-hero" onclick="startEstimator()">Start My Estimate →</button>
+    <div class="hero-note">Estimates reflect 2026–2027 average costs and may not represent your individual cost of attendance.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ ESTIMATOR -->
+<div id="estimator" class="hidden">
+
+  <!-- Progress Bar -->
+  <div class="progress-bar">
+    <div class="progress-inner" id="progressBar"></div>
+  </div>
+
+  <div class="main">
+
+    <!-- ── STEP 1: About You ─────────────────────────────── -->
+    <div id="step1" class="card hidden">
+      <div class="card-eyebrow">Step 1 of 4</div>
+      <h2>Tell us about yourself</h2>
+      <p class="card-sub">We'll use this to pull the correct cost of attendance figures for your specific situation.</p>
+
+      <div class="field">
+        <label class="field-label">What level will you be competing at?</label>
+        <div class="opt-grid">
+          <label class="opt-card" id="oc-ug" onclick="pick('level','undergraduate',this)">
+            <input type="radio" name="level" value="undergraduate">
+            <div class="opt-icon">🎓</div>
+            <div class="opt-title">Undergraduate</div>
+            <div class="opt-sub">Working toward a bachelor's degree</div>
+          </label>
+          <label class="opt-card" id="oc-grad" onclick="pick('level','graduate',this)">
+            <input type="radio" name="level" value="graduate">
+            <div class="opt-icon">📚</div>
+            <div class="opt-title">Graduate</div>
+            <div class="opt-sub">Working toward a graduate degree</div>
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">What is your residency status?</label>
+        <div class="opt-grid cols3">
+          <label class="opt-card" id="oc-res" onclick="pick('residency','resident',this)">
+            <input type="radio" name="residency" value="resident">
+            <div class="opt-icon">🏔️</div>
+            <div class="opt-title">Idaho Resident</div>
+            <div class="opt-sub">Idaho high school graduate or established resident</div>
+          </label>
+          <label class="opt-card" id="oc-nonres" onclick="pick('residency','nonresident',this)">
+            <input type="radio" name="residency" value="nonresident">
+            <div class="opt-icon">🇺🇸</div>
+            <div class="opt-title">Non-Resident</div>
+            <div class="opt-sub">U.S. student from outside Idaho</div>
+          </label>
+          <label class="opt-card" id="oc-intl" onclick="pick('residency','international',this)">
+            <input type="radio" name="residency" value="international">
+            <div class="opt-icon">🌍</div>
+            <div class="opt-title">International</div>
+            <div class="opt-sub">Non-U.S. citizen requiring a visa</div>
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">What sport will you be competing in?</label>
+        <select id="sportSel" onchange="S.sport = this.value">
+          <option value="">— Select your sport —</option>
+          <optgroup label="Men's Sports">
+            <option value="Men's Basketball">Men's Basketball</option>
+            <option value="Men's Cross Country">Men's Cross Country</option>
+            <option value="Football">Football</option>
+            <option value="Men's Golf">Men's Golf</option>
+            <option value="Men's Tennis">Men's Tennis</option>
+            <option value="Men's Track &amp; Field">Men's Track &amp; Field</option>
+          </optgroup>
+          <optgroup label="Women's Sports">
+            <option value="Women's Basketball">Women's Basketball</option>
+            <option value="Beach Volleyball">Beach Volleyball</option>
+            <option value="Women's Cross Country">Women's Cross Country</option>
+            <option value="Women's Golf">Women's Golf</option>
+            <option value="Women's Gymnastics">Women's Gymnastics</option>
+            <option value="Women's Soccer">Women's Soccer</option>
+            <option value="Softball">Softball</option>
+            <option value="Women's Tennis">Women's Tennis</option>
+            <option value="Women's Track &amp; Field">Women's Track &amp; Field</option>
+            <option value="Women's Volleyball">Women's Volleyball</option>
+          </optgroup>
+        </select>
+      </div>
+
+      <div class="nav-btns">
+        <button class="btn-next" onclick="next(2)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- ── STEP 2: Living Situation ──────────────────────── -->
+    <div id="step2" class="card hidden">
+      <div class="card-eyebrow">Step 2 of 4</div>
+      <h2>Where will you be living?</h2>
+      <p class="card-sub">Your housing choice has a significant impact on your total cost of attendance.</p>
+
+      <div class="opt-grid">
+        <label class="opt-card" id="oc-oncampus" onclick="pick('housing','oncampus',this)">
+          <input type="radio" name="housing" value="oncampus">
+          <div class="opt-icon">🏛️</div>
+          <div class="opt-title">On Campus</div>
+          <div class="opt-sub">University housing with required meal plan</div>
+        </label>
+        <label class="opt-card" id="oc-offcampus" onclick="pick('housing','offcampus',this)">
+          <input type="radio" name="housing" value="offcampus">
+          <div class="opt-icon">🏠</div>
+          <div class="opt-title">Off Campus</div>
+          <div class="opt-sub">Renting an apartment near campus</div>
+        </label>
+        <label class="opt-card" id="oc-home" onclick="pick('housing','home',this)">
+          <input type="radio" name="housing" value="home">
+          <div class="opt-icon">👨‍👩‍👧</div>
+          <div class="opt-title">Living at Home</div>
+          <div class="opt-sub">Commuting from a parent or guardian's home</div>
+        </label>
+        <label class="opt-card" id="oc-dep" onclick="pick('housing','oncampusdep',this)">
+          <input type="radio" name="housing" value="oncampusdep">
+          <div class="opt-icon">👶</div>
+          <div class="opt-title">On Campus w/ Dependents</div>
+          <div class="opt-sub">University family housing</div>
+        </label>
+      </div>
+
+      <div class="nav-btns">
+        <button class="btn-back" onclick="goTo(1)">← Back</button>
+        <button class="btn-next" onclick="next(3)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- ── STEP 3: Athletic Aid ──────────────────────────── -->
+    <div id="step3" class="card hidden">
+      <div class="card-eyebrow">Step 3 of 4</div>
+      <h2>Athletic scholarship amount</h2>
+      <p class="card-sub">Enter the annual athletic aid amount from your Statement of Athletics Financial Aid. If you haven't received an offer yet, enter $0 to see your full cost of attendance.</p>
+
+      <div class="field">
+        <label class="field-label">Annual athletic aid amount</label>
+        <div class="dollar-wrap">
+          <span class="dollar-sign">$</span>
+          <input type="number" id="aidInput" placeholder="0" min="0" max="999999" step="100"
+                 oninput="S.athleticAid = Math.max(0, parseFloat(this.value)||0)">
+        </div>
+        <div class="field-hint">Enter the annual (full academic year) dollar amount, not per semester.</div>
+      </div>
+
+      <div class="alert alert-info">
+        <span class="alert-icon">ℹ️</span>
+        <div>Athletic aid is applied directly toward your cost of attendance and stacks on top of any academic scholarships you qualify for. Your total combined aid cannot exceed your Cost of Attendance as defined by Boise State University and NCAA regulations.</div>
+      </div>
+
+      <div class="nav-btns">
+        <button class="btn-back" onclick="goTo(2)">← Back</button>
+        <button class="btn-next" onclick="next(4)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- ── STEP 4: Academic Aid ──────────────────────────── -->
+    <div id="step4" class="card hidden">
+      <div class="card-eyebrow">Step 4 of 4</div>
+      <h2>Academic scholarship</h2>
+      <p class="card-sub">Enter your unweighted high school GPA and we'll identify the scholarship you may qualify for. You can choose whether to include it in your estimate.</p>
+
+      <div class="field">
+        <label class="field-label">Unweighted high school GPA (0.0 – 4.0)</label>
+        <input type="number" id="gpaInput" placeholder="e.g. 3.75"
+               min="0" max="4.0" step="0.01" oninput="onGpaChange()">
+        <div class="field-hint">Use your unweighted cumulative GPA on a 4.0 scale.</div>
+      </div>
+
+      <!-- Pell question — shown only for residents 3.20–3.69 -->
+      <div id="pellSection" class="hidden">
+        <div class="divider"></div>
+        <div class="field">
+          <label class="field-label">Are you Pell Grant eligible?</label>
+          <p class="field-hint" style="margin-bottom:10px;">The True Blue Promise scholarship requires Pell Grant eligibility as determined by your FAFSA.</p>
+          <div class="opt-grid">
+            <label class="opt-card" id="oc-pell-yes" onclick="pick('pell','yes',this);onGpaChange()">
+              <input type="radio" name="pell" value="yes">
+              <div class="opt-title">Yes, I am Pell eligible</div>
+              <div class="opt-sub">Confirmed via FAFSA</div>
+            </label>
+            <label class="opt-card" id="oc-pell-no" onclick="pick('pell','no',this);onGpaChange()">
+              <input type="radio" name="pell" value="no">
+              <div class="opt-title">No / Not sure yet</div>
+              <div class="opt-sub">I haven't completed FAFSA</div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scholarship result box -->
+      <div id="scholBox" class="hidden"></div>
+
+      <!-- Deadline warning -->
+      <div id="deadlineAlert" class="hidden"></div>
+
+      <!-- WUE state note -->
+      <div id="wueAlert" class="hidden">
+        <div class="alert alert-warn">
+          <span class="alert-icon">⚠️</span>
+          <div><strong>WUE State Requirement:</strong> The WUE scholarship requires permanent residence in a participating western state (AK, AZ, CA, CO, HI, MT, NV, NM, ND, OR, SD, UT, WA, WY). If you are not from a WUE state, the <strong>Summit Scholarship ($10,000)</strong> would apply instead for a 3.30+ GPA, or <strong>Ridgeline ($5,000)</strong> for 3.10–3.29.</div>
+        </div>
+      </div>
+
+      <!-- Include toggle -->
+      <div id="includeToggle" class="hidden">
+        <label class="toggle-row" for="includeCheck">
+          <input type="checkbox" id="includeCheck" checked
+                 onchange="S.includeAcademic = this.checked">
+          <span class="toggle-text">Include this academic scholarship in my estimate</span>
+        </label>
+      </div>
+
+      <div class="nav-btns">
+        <button class="btn-back" onclick="goTo(3)">← Back</button>
+        <button class="btn-next" onclick="calculate()">Calculate My Aid →</button>
+      </div>
+    </div>
+
+    <!-- ── RESULTS ───────────────────────────────────────── -->
+    <div id="stepResults" class="card hidden">
+      <div class="results-top">
+        <div class="sport-pill" id="rSport"></div>
+        <h2>Your 2026–2027 Aid Estimate</h2>
+        <p id="rMeta"></p>
+      </div>
+
+      <table class="breakdown" id="rTable"></table>
+
+      <div class="results-disclaimer">
+        <strong>Important Disclaimer:</strong> This estimate reflects average 2026–2027 costs and may not represent your individual cost of attendance. Actual costs may vary based on course fees, program-specific requirements, and individual circumstances. Academic scholarship awards are subject to eligibility requirements, application deadlines, and GPA thresholds. Athletic aid is governed by NCAA regulations and Boise State University institutional policy. International student-athletes may be subject to U.S. federal income tax on room, board, and cost of attendance portions of athletic aid received. Contact the Boise State Athletics Financial Aid office for a personalized review.
+      </div>
+
+      <div class="results-actions">
+        <button class="btn-restart" onclick="restart()">← Start Over</button>
+        <button class="btn-print" onclick="window.print()">🖨️ Print / Save PDF</button>
+      </div>
+    </div>
+
+  </div><!-- .main -->
+</div><!-- #estimator -->
+
+<!-- ═══════════════════════════════════════════════════════ FOOTER -->
+<footer class="site-footer">
+  <p>© 2026 Boise State University Athletics &nbsp;·&nbsp;
+     <a href="https://broncosports.com" target="_blank">broncosports.com</a> &nbsp;·&nbsp;
+     Questions? <a href="mailto:financialaid@boisestate.edu">Athletics Financial Aid Office</a> &nbsp;·&nbsp;
+     <a href="https://www.boisestate.edu/financialaid/" target="_blank">Financial Aid</a>
+  </p>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════ SCRIPT -->
+<script>
+// ─────────────────────────────────────────────────────────────────
+// COA DATA  (2026-27, annual rounded figures from official spreadsheet)
+// ─────────────────────────────────────────────────────────────────
+const COA = {
+  undergraduate: {
+    resident: {
+      oncampus:    { tuition:9789,  books:800, roomboard:16894, transport:3142, personal:3644, total:34268 },
+      offcampus:   { tuition:9789,  books:800, roomboard:16324, transport:3183, personal:3644, total:33740 },
+      home:        { tuition:9789,  books:800, roomboard:7686,  transport:2474, personal:3644, total:24393 },
+      oncampusdep: { tuition:9789,  books:800, roomboard:22374, transport:3142, personal:3644, total:39750 },
+    },
+    nonresident: {
+      oncampus:    { tuition:29477, books:800, roomboard:16894, transport:3408, personal:3644, total:54222 },
+      offcampus:   { tuition:29477, books:800, roomboard:16324, transport:2834, personal:3644, total:53079 },
+      home:        { tuition:29477, books:800, roomboard:7686,  transport:2474, personal:3644, total:44081 },
+      oncampusdep: { tuition:29477, books:800, roomboard:22374, transport:3408, personal:3644, total:59703 },
+    },
+    international: {
+      oncampus:    { tuition:29477, books:800, roomboard:16894, transport:4258, personal:3528, total:54958 },
+      offcampus:   { tuition:29477, books:800, roomboard:16324, transport:4208, personal:3528, total:54337 },
+      home:        { tuition:29477, books:800, roomboard:7686,  transport:4208, personal:3528, total:45709 },
+      oncampusdep: { tuition:29477, books:800, roomboard:22374, transport:4258, personal:3528, total:60445 },
+    },
+  },
+  graduate: {
+    resident: {
+      oncampus:    { tuition:11711, books:800, roomboard:16894, transport:3142, personal:3644, total:36190 },
+      offcampus:   { tuition:11711, books:800, roomboard:16324, transport:3183, personal:3644, total:35662 },
+      home:        { tuition:11711, books:800, roomboard:7686,  transport:2474, personal:3644, total:26315 },
+      oncampusdep: { tuition:11711, books:800, roomboard:22374, transport:3142, personal:3644, total:41672 },
+    },
+    nonresident: {
+      oncampus:    { tuition:31399, books:800, roomboard:16894, transport:3408, personal:3644, total:56145 },
+      offcampus:   { tuition:31399, books:800, roomboard:16324, transport:2834, personal:3644, total:55001 },
+      home:        { tuition:31399, books:800, roomboard:7686,  transport:2474, personal:3644, total:46003 },
+      oncampusdep: { tuition:31399, books:800, roomboard:22374, transport:3408, personal:3644, total:61625 },
+    },
+    international: {
+      oncampus:    { tuition:31399, books:800, roomboard:16894, transport:4258, personal:3528, total:56879 },
+      offcampus:   { tuition:31399, books:800, roomboard:16324, transport:4208, personal:3528, total:56259 },
+      home:        { tuition:31399, books:800, roomboard:7686,  transport:4208, personal:3528, total:47629 },
+      oncampusdep: { tuition:31399, books:800, roomboard:22374, transport:4258, personal:3528, total:63367 },
+    },
+  },
+};
+
+// ─────────────────────────────────────────────────────────────────
+// SCHOLARSHIP LOGIC
+// ─────────────────────────────────────────────────────────────────
+// Deadlines (for Fall 2026 entry)
+const DEADLINES = {
+  feb15: new Date('2026-02-15'),
+  dec15: new Date('2025-12-15'),
+};
+const TODAY = new Date('2026-05-18');
+
+function deadlinePassed(key) { return TODAY > DEADLINES[key]; }
+
+function getScholarship(residency, gpa, pell) {
+  if (residency === 'resident') {
+    if (gpa >= 3.90) return { name:'Presidential Scholarship', amount:3000, dl:'February 15', dlKey:'feb15', pell:false };
+    if (gpa >= 3.70) return { name:"Dean's Scholarship",      amount:2500, dl:'February 15', dlKey:'feb15', pell:false };
+    if (gpa >= 3.20) {
+      if (pell === 'yes') return { name:'True Blue Promise', amount:2000, dl:'February 15', dlKey:'feb15', pell:true };
+      if (pell === null)  return { name:'True Blue Promise (if Pell eligible)', amount:2000, dl:'February 15', dlKey:'feb15', pell:true, pending:true };
+      return null; // pell === 'no'
+    }
+    return null;
+  }
+  if (residency === 'nonresident') {
+    if (gpa >= 3.50) return { name:'WUE Scholarship', amount:15938, dl:'December 15', dlKey:'dec15', wue:true };
+    if (gpa >= 3.30) return { name:'Summit Scholarship',   amount:10000, dl:'December 15', dlKey:'dec15' };
+    if (gpa >= 3.10) return { name:'Ridgeline Scholarship', amount:5000, dl:'December 15', dlKey:'dec15' };
+    return null;
+  }
+  if (residency === 'international') {
+    if (gpa >= 3.30) return { name:'Summit Scholarship',   amount:10000, dl:'December 15', dlKey:'dec15' };
+    if (gpa >= 3.10) return { name:'Ridgeline Scholarship', amount:5000, dl:'December 15', dlKey:'dec15' };
+    return null;
+  }
+  return null;
+}
+
+// ─────────────────────────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────────────────────────
+const S = {
+  level:          null,
+  residency:      null,
+  sport:          '',
+  housing:        null,
+  athleticAid:    0,
+  gpa:            null,
+  pell:           null,
+  scholarship:    null,
+  includeAcademic: true,
+};
+
+const STEP_LABELS = ['About You','Living Situation','Athletic Aid','Academic Aid'];
+
+// ─────────────────────────────────────────────────────────────────
+// NAVIGATION
+// ─────────────────────────────────────────────────────────────────
+function startEstimator() {
+  document.getElementById('landing').classList.add('hidden');
+  document.getElementById('estimator').classList.remove('hidden');
+  goTo(1);
+}
+
+function goTo(n) {
+  ['step1','step2','step3','step4','stepResults'].forEach(id => {
+    document.getElementById(id).classList.add('hidden');
+  });
+  const el = document.getElementById(n === 'results' ? 'stepResults' : 'step'+n);
+  el.classList.remove('hidden');
+  el.classList.remove('fade-in');
+  void el.offsetWidth; // reflow to restart animation
+  el.classList.add('fade-in');
+  if (n !== 'results') renderProgress(n);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function next(targetStep) {
+  if (!validate(targetStep - 1)) return;
+  goTo(targetStep);
+}
+
+function validate(step) {
+  if (step === 1) {
+    if (!S.level)     { flash('Please select your student level.');     return false; }
+    if (!S.residency) { flash('Please select your residency status.');  return false; }
+    if (!S.sport)     { flash('Please select your sport.');             return false; }
+  }
+  if (step === 2) {
+    if (!S.housing)   { flash('Please select your living situation.');  return false; }
+  }
+  return true;
+}
+
+function flash(msg) {
+  const old = document.querySelector('.flash-msg');
+  if (old) old.remove();
+  const el = document.createElement('div');
+  el.className = 'flash-msg alert alert-warn';
+  el.style.cssText = 'position:fixed;top:80px;left:50%;transform:translateX(-50%);z-index:999;min-width:320px;text-align:center;';
+  el.innerHTML = `<span class="alert-icon">⚠️</span><div>${msg}</div>`;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 3000);
+}
+
+function calculate() {
+  S.scholarship = getScholarship(S.residency, S.gpa || 0, S.pell);
+  renderResults();
+  goTo('results');
+}
+
+function restart() {
+  Object.assign(S, { level:null, residency:null, sport:'', housing:null,
+    athleticAid:0, gpa:null, pell:null, scholarship:null, includeAcademic:true });
+  document.querySelectorAll('.opt-card').forEach(c => c.classList.remove('sel'));
+  document.getElementById('sportSel').value   = '';
+  document.getElementById('aidInput').value   = '';
+  document.getElementById('gpaInput').value   = '';
+  document.getElementById('includeCheck').checked = true;
+  document.getElementById('pellSection').classList.add('hidden');
+  document.getElementById('scholBox').classList.add('hidden');
+  document.getElementById('deadlineAlert').classList.add('hidden');
+  document.getElementById('wueAlert').classList.add('hidden');
+  document.getElementById('includeToggle').classList.add('hidden');
+  goTo(1);
+}
+
+// ─────────────────────────────────────────────────────────────────
+// PROGRESS BAR
+// ─────────────────────────────────────────────────────────────────
+function renderProgress(active) {
+  const bar = document.getElementById('progressBar');
+  bar.innerHTML = '';
+  STEP_LABELS.forEach((label, i) => {
+    const n = i + 1;
+    const isActive = n === active;
+    const isDone   = n < active;
+    const item = document.createElement('div');
+    item.className = 'ps-item';
+    item.innerHTML =
+      `<div class="ps-circle ${isActive?'active':''} ${isDone?'done':''}">${isDone?'✓':n}</div>` +
+      `<span class="ps-label ${isActive?'active':''}">${label}</span>`;
+    bar.appendChild(item);
+    if (i < STEP_LABELS.length - 1) {
+      const line = document.createElement('div');
+      line.className = 'ps-line' + (isDone ? ' done' : '');
+      bar.appendChild(line);
+    }
+  });
+}
+
+// ─────────────────────────────────────────────────────────────────
+// OPTION CARD SELECTION
+// ─────────────────────────────────────────────────────────────────
+function pick(field, value, el) {
+  const grid = el.closest('.opt-grid');
+  if (grid) grid.querySelectorAll('.opt-card').forEach(c => c.classList.remove('sel'));
+  el.classList.add('sel');
+  S[field] = value;
+}
+
+// ─────────────────────────────────────────────────────────────────
+// SCHOLARSHIP LOGIC (Step 4 live update)
+// ─────────────────────────────────────────────────────────────────
+function onGpaChange() {
+  const raw = parseFloat(document.getElementById('gpaInput').value);
+  const valid = !isNaN(raw) && raw >= 0 && raw <= 4.0;
+  S.gpa = valid ? raw : null;
+
+  const scholBox      = document.getElementById('scholBox');
+  const deadlineAlert = document.getElementById('deadlineAlert');
+  const wueAlert      = document.getElementById('wueAlert');
+  const includeToggle = document.getElementById('includeToggle');
+  const pellSection   = document.getElementById('pellSection');
+
+  if (!valid) {
+    [scholBox, deadlineAlert, wueAlert, includeToggle, pellSection]
+      .forEach(el => el.classList.add('hidden'));
+    return;
+  }
+
+  // Show Pell question for residents with GPA 3.20–3.69
+  const needsPell = S.residency === 'resident' && raw >= 3.20 && raw < 3.70;
+  pellSection.classList.toggle('hidden', !needsPell);
+  if (!needsPell) S.pell = null;
+
+  const schol = getScholarship(S.residency, raw, needsPell ? S.pell : null);
+  S.scholarship = schol;
+
+  // Render scholarship box
+  if (schol) {
+    const passed = deadlinePassed(schol.dlKey);
+    scholBox.className = 'schol-box match';
+    scholBox.innerHTML =
+      `<div class="schol-name">🎓 ${schol.name}</div>` +
+      `<div class="schol-amount">$${schol.amount.toLocaleString()} / year</div>` +
+      `<div class="schol-note">Scholarship deadline: <strong>${schol.dl}</strong> &nbsp;·&nbsp; ` +
+      `Renewal requires 24 credits/yr and minimum GPA</div>`;
+    scholBox.classList.remove('hidden');
+
+    // Deadline warning
+    if (passed) {
+      deadlineAlert.innerHTML =
+        `<div class="alert alert-warn"><span class="alert-icon">⚠️</span>` +
+        `<div><strong>Scholarship deadline has passed.</strong> The ${schol.dl} deadline ` +
+        `for this scholarship has already passed for the 2026–2027 academic year. ` +
+        `Contact the Boise State Financial Aid office at <strong>(208) 426-1664</strong> ` +
+        `to discuss your options.</div></div>`;
+      deadlineAlert.classList.remove('hidden');
+    } else {
+      deadlineAlert.classList.add('hidden');
+    }
+
+    // WUE note
+    wueAlert.classList.toggle('hidden', !schol.wue);
+
+    includeToggle.classList.remove('hidden');
+  } else {
+    // No match
+    let reason = '';
+    if (S.residency === 'resident') {
+      if (raw < 3.20)
+        reason = 'Idaho Resident scholarships require a minimum 3.20 GPA.';
+      else
+        reason = 'True Blue Promise requires Pell Grant eligibility. Select "No" above to confirm, or the estimate will assume no scholarship.';
+    } else if (S.residency === 'nonresident') {
+      reason = 'Non-Resident scholarships (Ridgeline) require a minimum 3.10 GPA.';
+    } else {
+      reason = 'International scholarships (Ridgeline) require a minimum 3.10 GPA.';
+    }
+    scholBox.className = 'schol-box nomatch';
+    scholBox.innerHTML =
+      `<div class="schol-nomatch-text">No automatic scholarship match found for this GPA.<br>` +
+      `<small>${reason}</small></div>`;
+    scholBox.classList.remove('hidden');
+    deadlineAlert.classList.add('hidden');
+    wueAlert.classList.add('hidden');
+    includeToggle.classList.add('hidden');
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────
+// RESULTS
+// ─────────────────────────────────────────────────────────────────
+function $$(n) {
+  return '$' + Math.abs(n).toLocaleString('en-US', { minimumFractionDigits:0, maximumFractionDigits:0 });
+}
+
+function renderResults() {
+  const { level, residency, housing, athleticAid, scholarship, includeAcademic } = S;
+  const coa   = COA[level][residency][housing];
+  const acadAid = (includeAcademic && scholarship && !scholarship.pending) ? scholarship.amount : 0;
+  const totalAid = athleticAid + acadAid;
+  const remaining = Math.max(0, coa.total - totalAid);
+  const overCOA = totalAid > coa.total;
+
+  const resMap = { resident:'Idaho Resident', nonresident:'Non-Resident', international:'International' };
+  const houMap = {
+    oncampus:'On Campus', offcampus:'Off Campus',
+    home:'Living at Home', oncampusdep:'On Campus w/ Dependents'
+  };
+  const levelMap = { undergraduate:'Undergraduate', graduate:'Graduate' };
+
+  document.getElementById('rSport').textContent = S.sport;
+  document.getElementById('rMeta').textContent  =
+    `${levelMap[level]} · ${resMap[residency]} · ${houMap[housing]}`;
+
+  let html = `<tbody>
+    <tr class="sec-head"><td colspan="2">2026–2027 Cost of Attendance</td></tr>
+    <tr class="data-row"><td>Tuition &amp; Fees</td><td>${$$(coa.tuition)}</td></tr>
+    <tr class="data-row"><td>Books &amp; Supplies</td><td>${$$(coa.books)}</td></tr>
+    <tr class="data-row"><td>Room &amp; Board</td><td>${$$(coa.roomboard)}</td></tr>
+    <tr class="data-row"><td>Transportation</td><td>${$$(coa.transport)}</td></tr>
+    <tr class="data-row"><td>Personal / Miscellaneous</td><td>${$$(coa.personal)}</td></tr>
+    <tr class="sub-row"><td>Total Cost of Attendance</td><td>${$$(coa.total)}</td></tr>
+
+    <tr class="sec-head"><td colspan="2">Aid Applied</td></tr>`;
+
+  if (athleticAid > 0) {
+    html += `<tr class="data-row ded"><td>Athletic Scholarship — ${S.sport}</td><td>− ${$$(athleticAid)}</td></tr>`;
+  } else {
+    html += `<tr class="data-row empty"><td>Athletic Scholarship</td><td>No offer entered</td></tr>`;
+  }
+
+  if (acadAid > 0) {
+    html += `<tr class="data-row ded"><td>Academic Scholarship — ${scholarship.name}</td><td>− ${$$(acadAid)}</td></tr>`;
+  } else {
+    html += `<tr class="data-row empty"><td>Academic Scholarship</td><td>${
+      scholarship ? 'Not included in estimate' : 'None / not qualified'
+    }</td></tr>`;
+  }
+
+  html += `<tr class="sub-row"><td>Total Aid Applied</td><td>− ${$$(totalAid)}</td></tr>`;
+
+  const zeroOut = overCOA || remaining === 0;
+  html += `<tr class="total-row ${zeroOut?'zero':''}">
+    <td>Estimated Remaining Cost to Athlete</td>
+    <td>${zeroOut ? '$0' : $$(remaining)}</td>
+  </tr></tbody>`;
+
+  document.getElementById('rTable').innerHTML = html;
+
+  if (overCOA) {
+    const note = document.createElement('div');
+    note.className = 'alert alert-info';
+    note.style.marginTop = '14px';
+    note.innerHTML =
+      `<span class="alert-icon">ℹ️</span>` +
+      `<div>Your combined aid exceeds the total cost of attendance. Any aid above the COA ceiling is subject to NCAA and Boise State institutional review. The Financial Aid office will adjust accordingly.</div>`;
+    document.getElementById('rTable').insertAdjacentElement('afterend', note);
+  }
+}
+</script>
+</body>
+</html>
