@@ -135,15 +135,18 @@
     .opt-card.sel .opt-title { color: var(--blue); }
     .opt-sub   { font-size: 12px; color: var(--text-mid); margin-top: 3px; }
 
-    /* ── MAJOR FEE PREVIEW ── */
-    .major-fee-preview {
-      display: none; margin-top: 12px; padding: 14px 16px;
-      background: var(--green-bg); border: 1px solid var(--green); border-radius: 6px;
+    /* ── COURSE FEES LINK BOX ── */
+    .course-fees-box {
+      margin-top: 20px; padding: 18px 20px;
+      background: var(--blue-light); border: 1px solid #90a4d4; border-radius: 7px;
     }
-    .major-fee-preview.show { display: block; }
-    .major-fee-preview .mfp-label { font-size: 12px; color: var(--text-mid); }
-    .major-fee-preview .mfp-amount { font-size: 20px; font-weight: 800; color: var(--green); }
-    .major-fee-preview .mfp-note { font-size: 12px; color: var(--text-mid); margin-top: 2px; }
+    .course-fees-box p { font-size: 14px; color: var(--blue); line-height: 1.6; }
+    .course-fees-box a {
+      display: inline-block; margin-top: 10px; color: var(--white);
+      background: var(--blue); padding: 9px 20px; border-radius: 4px;
+      font-size: 13px; font-weight: 700; text-decoration: none; transition: background .18s;
+    }
+    .course-fees-box a:hover { background: var(--blue-dark); }
 
     /* ── SCHOLARSHIP BOX ── */
     .schol-box { border: 2px solid var(--border); border-radius: 7px; padding: 20px; margin-top: 16px; transition: all .2s; }
@@ -223,15 +226,11 @@
     .breakdown tr.data-row.empty td:last-child { color: #bbb; }
     .breakdown tr.data-row.sub-item td { padding: 8px 18px 8px 36px; border-bottom: 1px solid var(--border); font-size: 13px; color: var(--text-mid); }
     .breakdown tr.data-row.sub-item td:last-child { text-align: right; font-weight: 500; }
-    .breakdown tr.data-row.prog-fee td { color: var(--orange); font-weight: 600; }
     .breakdown tr.sub-row td { padding: 13px 18px; font-size: 15px; font-weight: 800; background: var(--bg); border-top: 2px solid var(--border); border-bottom: 2px solid var(--border); }
     .breakdown tr.sub-row td:last-child { text-align: right; }
     .breakdown tr.total-row td { background: var(--blue); color: var(--white); padding: 20px 18px; font-size: 20px; font-weight: 900; }
     .breakdown tr.total-row td:last-child { text-align: right; }
     .breakdown tr.total-row.zero td { background: var(--green); }
-    .breakdown tr.grand-total td { background: #1a1a1a; color: var(--white); padding: 18px 18px; font-size: 17px; font-weight: 900; }
-    .breakdown tr.grand-total td:last-child { text-align: right; }
-
     .results-disclaimer { font-size: 12px; color: var(--text-light); line-height: 1.65; margin-top: 22px; padding: 16px 18px; background: var(--bg); border-radius: 7px; border: 1px solid var(--border); }
     .results-disclaimer strong { color: var(--text-mid); }
     .results-actions { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
@@ -285,7 +284,7 @@
     <div class="hero-features">
       <div class="hero-feature"><span>🏈</span> All Boise State Sports</div>
       <div class="hero-feature"><span>🎓</span> Academic Scholarships</div>
-      <div class="hero-feature"><span>📚</span> Major Program Fees</div>
+      <div class="hero-feature"><span>📋</span> Course Fee Reference</div>
       <div class="hero-feature"><span>📊</span> Full Aid Breakdown</div>
     </div>
     <button class="btn-hero" onclick="startEstimator()">Start My Estimate →</button>
@@ -302,7 +301,7 @@
 
     <!-- STEP 1: About You -->
     <div id="step1" class="card hidden">
-      <div class="card-eyebrow">Step 1 of 5</div>
+      <div class="card-eyebrow">Step 1 of 4</div>
       <h2>Tell us about yourself</h2>
       <p class="card-sub">We'll use this to pull the correct cost of attendance figures for your specific situation.</p>
       <div class="field">
@@ -365,7 +364,7 @@
 
     <!-- STEP 2: Living Situation -->
     <div id="step2" class="card hidden">
-      <div class="card-eyebrow">Step 2 of 5</div>
+      <div class="card-eyebrow">Step 2 of 4</div>
       <h2>Where will you be living?</h2>
       <p class="card-sub">Your housing choice has a significant impact on your total cost of attendance.</p>
       <div class="opt-grid">
@@ -398,7 +397,7 @@
 
     <!-- STEP 3: Athletic Aid -->
     <div id="step3" class="card hidden">
-      <div class="card-eyebrow">Step 3 of 5</div>
+      <div class="card-eyebrow">Step 3 of 4</div>
       <h2>Athletic scholarship amount</h2>
       <p class="card-sub">Enter the annual athletic aid amount from your Statement of Athletics Financial Aid. If you haven't received an offer yet, enter $0 to see your full cost of attendance.</p>
       <div class="field">
@@ -422,7 +421,7 @@
 
     <!-- STEP 4: Academic Aid -->
     <div id="step4" class="card hidden">
-      <div class="card-eyebrow">Step 4 of 5</div>
+      <div class="card-eyebrow">Step 4 of 4</div>
       <h2>Academic scholarship</h2>
       <p class="card-sub">Enter your unweighted high school GPA and we'll identify the scholarship you may qualify for.</p>
       <div class="field">
@@ -463,104 +462,6 @@
       </div>
       <div class="nav-btns">
         <button class="btn-back" onclick="goTo(3)">← Back</button>
-        <button class="btn-next" onclick="next(5)">Continue →</button>
-      </div>
-    </div>
-
-    <!-- STEP 5: Major Selection -->
-    <div id="step5" class="card hidden">
-      <div class="card-eyebrow">Step 5 of 5</div>
-      <h2>What's your intended major?</h2>
-      <p class="card-sub">Select your intended major and we'll include estimated annual program fees in your breakdown. These fees are always the athlete's responsibility and are not covered by athletic aid.</p>
-      <div class="field">
-        <label class="field-label">Intended major</label>
-        <select id="majorSel" onchange="onMajorChange()">
-          <option value="">— Select a major —</option>
-          <option value="undecided">Undecided / Not sure yet</option>
-          <optgroup label="College of Business &amp; Economics">
-            <option value="accounting">Accountancy BBA</option>
-            <option value="bizadmin">Business Administration BBA</option>
-            <option value="bizanalytics">Business &amp; Economic Analytics BS</option>
-            <option value="bizecon">Business Economics BA</option>
-            <option value="entrepreneurship">Entrepreneurship Management BBA</option>
-            <option value="finance">Finance BBA</option>
-            <option value="hrm">Human Resource Management BBA</option>
-            <option value="intlbiz">International Business BBA</option>
-            <option value="itm">Information Technology Management BBA</option>
-            <option value="management">Management BBA</option>
-            <option value="marketing">Marketing BBA</option>
-            <option value="scm">Supply Chain Management BBA</option>
-          </optgroup>
-          <optgroup label="College of Arts &amp; Sciences">
-            <option value="anthropology">Anthropology BA</option>
-            <option value="artfineart">Art — Fine Arts BFA</option>
-            <option value="artgraphic">Art — Graphic Design BFA</option>
-            <option value="biology">Biology BS</option>
-            <option value="biochemistry">Biochemistry BS</option>
-            <option value="chemistry">Chemistry BS</option>
-            <option value="comm">Communication BA</option>
-            <option value="compsci">Computer Science BS</option>
-            <option value="criminaljustice">Criminal Justice BS</option>
-            <option value="economics">Economics BA</option>
-            <option value="english">English BA</option>
-            <option value="envsci">Environmental Science BS</option>
-            <option value="film">Film BA</option>
-            <option value="geography">Geography BA</option>
-            <option value="geosciences">Geosciences BS</option>
-            <option value="healthscience">Health Science BS</option>
-            <option value="history">History BA</option>
-            <option value="ips">Interdisciplinary Professional Studies BA</option>
-            <option value="mathematics">Mathematics BS</option>
-            <option value="media">Media Studies BA</option>
-            <option value="neuroscience">Neuroscience BS</option>
-            <option value="philosophy">Philosophy BA</option>
-            <option value="physics">Physics BS</option>
-            <option value="polisci">Political Science BA</option>
-            <option value="psychology">Psychology BA</option>
-            <option value="sociology">Sociology BA</option>
-            <option value="spanish">Spanish BA</option>
-            <option value="writing">Writing BA</option>
-          </optgroup>
-          <optgroup label="College of Education">
-            <option value="edelem">Elementary Education BS</option>
-            <option value="edsec">Secondary Education BS</option>
-            <option value="edsped">Special Education BS</option>
-            <option value="kinesHPES">Kinesiology — Human Performance &amp; Exercise Science BS</option>
-            <option value="kinesPreAllied">Kinesiology — Pre-Allied Health BS</option>
-            <option value="kinesRehab">Kinesiology — Rehabilitation Science BS</option>
-            <option value="kinesK12">K-12 Physical Education &amp; Health BS</option>
-          </optgroup>
-          <optgroup label="College of Engineering">
-            <option value="electricaleng">Electrical Engineering BS</option>
-            <option value="materialssci">Materials Science &amp; Engineering BS</option>
-            <option value="mechanicaleng">Mechanical Engineering BS</option>
-          </optgroup>
-          <optgroup label="College of Health Sciences">
-            <option value="medimaging">Medical Imaging BS (Cardiovascular)</option>
-            <option value="nursing">Nursing RN-BSN</option>
-          </optgroup>
-          <optgroup label="School of Social Work">
-            <option value="socialwork">Social Work BSW</option>
-          </optgroup>
-          <optgroup label="School of Public Service">
-            <option value="pubpolicy">Public Policy BA</option>
-          </optgroup>
-          <optgroup label="Other Programs">
-            <option value="digitech">Digital Technology &amp; Culture BS</option>
-          </optgroup>
-        </select>
-      </div>
-      <div id="majorFeePreview" class="major-fee-preview">
-        <div class="mfp-label">Estimated annual program fees</div>
-        <div class="mfp-amount" id="mfpAmount">$0</div>
-        <div class="mfp-note">Based on typical required courses · always the athlete's responsibility</div>
-      </div>
-      <div class="alert alert-info" style="margin-top:16px;">
-        <span class="alert-icon">ℹ️</span>
-        <div>Program fees are charged per course and are <strong>not covered by athletic or academic scholarships</strong>. Fees shown are an annual average based on 4 years of required coursework. Actual fees may vary by section and enrollment.</div>
-      </div>
-      <div class="nav-btns">
-        <button class="btn-back" onclick="goTo(4)">← Back</button>
         <button class="btn-next" onclick="calculate()">Calculate My Aid →</button>
       </div>
     </div>
@@ -582,8 +483,12 @@
         <span class="sem-toggle-label" id="lblSem">Per Semester</span>
       </div>
       <table class="breakdown" id="rTable"></table>
+      <div class="course-fees-box">
+        <p><strong>Want to see estimated course fees for your major?</strong> Boise State publishes a complete list of course-specific fees for every class offered. These fees are not covered by athletic or academic scholarships and are the athlete's responsibility. Use the link below to explore fees for courses in your intended program of study.</p>
+        <a href="https://www.boisestate.edu/sfs/boise-state-university-fees/other-fees-that-may-apply/complete-list-of-course-fees/fall-2026-class-fees/" target="_blank">View Fall 2026 Course Fee List →</a>
+      </div>
       <div class="results-disclaimer">
-        <strong>Important Disclaimer:</strong> This estimate reflects average 2026–2027 costs and may not represent your individual cost of attendance. Actual costs may vary based on course fees, program-specific requirements, and individual circumstances. Academic scholarship awards are subject to eligibility requirements, application deadlines, and GPA thresholds. Athletic aid is governed by NCAA regulations and Boise State University institutional policy. Program fees are estimated annual averages based on typical required coursework and are always the athlete's responsibility. International student-athletes may be subject to U.S. federal income tax on room, board, and cost of attendance portions of athletic aid received.
+        <strong>Important Disclaimer:</strong> This estimate reflects average 2026–2027 costs and may not represent your individual cost of attendance. Actual costs may vary based on course fees, program-specific requirements, and individual circumstances. Academic scholarship awards are subject to eligibility requirements, application deadlines, and GPA thresholds. Athletic aid is governed by NCAA regulations and Boise State University institutional policy. International student-athletes may be subject to U.S. federal income tax on room, board, and cost of attendance portions of athletic aid received.
       </div>
       <div class="results-actions">
         <button class="btn-restart" onclick="restart()">← Start Over</button>
@@ -618,78 +523,6 @@ const COA = {
     nonresident:   { oncampus:{tuition:31399,books:800,roomboard:16894,transport:3408,personal:3644,total:56145}, offcampus:{tuition:31399,books:800,roomboard:16324,transport:2834,personal:3644,total:55001}, home:{tuition:31399,books:800,roomboard:7686,transport:2474,personal:3644,total:46003}, oncampusdep:{tuition:31399,books:800,roomboard:22374,transport:3408,personal:3644,total:61625} },
     international: { oncampus:{tuition:31399,books:800,roomboard:16894,transport:4258,personal:3528,total:56879}, offcampus:{tuition:31399,books:800,roomboard:16324,transport:4208,personal:3528,total:56259}, home:{tuition:31399,books:800,roomboard:7686,transport:4208,personal:3528,total:47629}, oncampusdep:{tuition:31399,books:800,roomboard:22374,transport:4258,personal:3528,total:63367} },
   },
-};
-
-// ═══════════════════════════════════════════════════════════════
-// MAJOR PROGRAM FEES
-// Annual average = sum of all required course fees over 4 years ÷ 4
-// Source: Fall 2026 Course Fee List — courses not in list = $0 fee
-// ═══════════════════════════════════════════════════════════════
-const MAJORS = {
-  // ── College of Business & Economics ──────────────────────────
-  accounting:      { name:'Accountancy BBA',                          college:'College of Business & Economics', annualFee:405 },
-  bizadmin:        { name:'Business Administration BBA',              college:'College of Business & Economics', annualFee:270 },
-  bizanalytics:    { name:'Business & Economic Analytics BS',         college:'College of Business & Economics', annualFee:248 },
-  bizecon:         { name:'Business Economics BA',                    college:'College of Business & Economics', annualFee:113 },
-  entrepreneurship:{ name:'Entrepreneurship Management BBA',          college:'College of Business & Economics', annualFee:315 },
-  finance:         { name:'Finance BBA',                              college:'College of Business & Economics', annualFee:338 },
-  hrm:             { name:'Human Resource Management BBA',            college:'College of Business & Economics', annualFee:248 },
-  intlbiz:         { name:'International Business BBA',               college:'College of Business & Economics', annualFee:225 },
-  itm:             { name:'Information Technology Management BBA',    college:'College of Business & Economics', annualFee:285 },
-  management:      { name:'Management BBA',                           college:'College of Business & Economics', annualFee:248 },
-  marketing:       { name:'Marketing BBA',                            college:'College of Business & Economics', annualFee:293 },
-  scm:             { name:'Supply Chain Management BBA',              college:'College of Business & Economics', annualFee:248 },
-  // ── College of Arts & Sciences ────────────────────────────────
-  anthropology:    { name:'Anthropology BA',                          college:'College of Arts & Sciences',      annualFee:158 },
-  artfineart:      { name:'Art — Fine Arts BFA',                      college:'College of Arts & Sciences',      annualFee:639 },
-  artgraphic:      { name:'Art — Graphic Design BFA',                 college:'College of Arts & Sciences',      annualFee:178 },
-  biology:         { name:'Biology BS',                               college:'College of Arts & Sciences',      annualFee:390 },
-  biochemistry:    { name:'Biochemistry BS',                          college:'College of Arts & Sciences',      annualFee:418 },
-  chemistry:       { name:'Chemistry BS',                             college:'College of Arts & Sciences',      annualFee:380 },
-  comm:            { name:'Communication BA',                         college:'College of Arts & Sciences',      annualFee:120 },
-  compsci:         { name:'Computer Science BS',                      college:'College of Arts & Sciences',      annualFee:185 },
-  criminaljustice: { name:'Criminal Justice BS',                      college:'College of Arts & Sciences',      annualFee:270 },
-  economics:       { name:'Economics BA',                             college:'College of Arts & Sciences',      annualFee:113 },
-  english:         { name:'English BA',                               college:'College of Arts & Sciences',      annualFee:30  },
-  envsci:          { name:'Environmental Science BS',                 college:'College of Arts & Sciences',      annualFee:288 },
-  film:            { name:'Film BA',                                  college:'College of Arts & Sciences',      annualFee:285 },
-  geography:       { name:'Geography BA',                             college:'College of Arts & Sciences',      annualFee:80  },
-  geosciences:     { name:'Geosciences BS',                           college:'College of Arts & Sciences',      annualFee:210 },
-  healthscience:   { name:'Health Science BS',                        college:'College of Arts & Sciences',      annualFee:270 },
-  history:         { name:'History BA',                               college:'College of Arts & Sciences',      annualFee:68  },
-  ips:             { name:'Interdisciplinary Professional Studies BA', college:'College of Arts & Sciences',      annualFee:218 },
-  mathematics:     { name:'Mathematics BS',                           college:'College of Arts & Sciences',      annualFee:178 },
-  media:           { name:'Media Studies BA',                         college:'College of Arts & Sciences',      annualFee:266 },
-  neuroscience:    { name:'Neuroscience BS',                          college:'College of Arts & Sciences',      annualFee:193 },
-  philosophy:      { name:'Philosophy BA',                            college:'College of Arts & Sciences',      annualFee:68  },
-  physics:         { name:'Physics BS',                               college:'College of Arts & Sciences',      annualFee:210 },
-  polisci:         { name:'Political Science BA',                     college:'College of Arts & Sciences',      annualFee:68  },
-  psychology:      { name:'Psychology BA',                            college:'College of Arts & Sciences',      annualFee:270 },
-  sociology:       { name:'Sociology BA',                             college:'College of Arts & Sciences',      annualFee:158 },
-  spanish:         { name:'Spanish BA',                               college:'College of Arts & Sciences',      annualFee:130 },
-  writing:         { name:'Writing BA',                               college:'College of Arts & Sciences',      annualFee:45  },
-  // ── College of Education ──────────────────────────────────────
-  edelem:          { name:'Elementary Education BS',                  college:'College of Education',            annualFee:279 },
-  edsec:           { name:'Secondary Education BS',                   college:'College of Education',            annualFee:188 },
-  edsped:          { name:'Special Education BS',                     college:'College of Education',            annualFee:158 },
-  kinesHPES:       { name:'Kinesiology — Human Performance & Exercise Science BS', college:'College of Education', annualFee:351 },
-  kinesPreAllied:  { name:'Kinesiology — Pre-Allied Health BS',       college:'College of Education',            annualFee:399 },
-  kinesRehab:      { name:'Kinesiology — Rehabilitation Science BS',  college:'College of Education',            annualFee:239 },
-  kinesK12:        { name:'K-12 Physical Education & Health BS',      college:'College of Education',            annualFee:173 },
-  // ── College of Engineering ────────────────────────────────────
-  electricaleng:   { name:'Electrical Engineering BS',                college:'College of Engineering',          annualFee:195 },
-  materialssci:    { name:'Materials Science & Engineering BS',       college:'College of Engineering',          annualFee:266 },
-  mechanicaleng:   { name:'Mechanical Engineering BS',                college:'College of Engineering',          annualFee:223 },
-  // ── College of Health Sciences ────────────────────────────────
-  medimaging:      { name:'Medical Imaging BS (Cardiovascular)',      college:'College of Health Sciences',      annualFee:270 },
-  nursing:         { name:'Nursing RN-BSN',                           college:'College of Health Sciences',      annualFee:113 },
-  // ── School of Social Work ─────────────────────────────────────
-  socialwork:      { name:'Social Work BSW',                          college:'School of Social Work',           annualFee:45  },
-  // ── School of Public Service ──────────────────────────────────
-  pubpolicy:       { name:'Public Policy BA',                         college:'School of Public Service',        annualFee:113 },
-  // ── Other ─────────────────────────────────────────────────────
-  digitech:        { name:'Digital Technology & Culture BS',          college:'Other Programs',                  annualFee:288 },
-  undecided:       { name:'Undecided / Not sure yet',                 college:'',                                annualFee:0   },
 };
 
 // ═══════════════════════════════════════════════════════════════
@@ -730,9 +563,9 @@ function getScholarship(residency, gpa, pell) {
 const S = {
   level:null, residency:null, sport:'', housing:null,
   athleticAid:0, gpa:null, pell:null, scholarship:null, includeAcademic:true,
-  major:'', isSemester:false,
+  isSemester:false,
 };
-const STEP_LABELS = ['About You','Living Situation','Athletic Aid','Academic Aid','Major'];
+const STEP_LABELS = ['About You','Living Situation','Athletic Aid','Academic Aid'];
 
 // ═══════════════════════════════════════════════════════════════
 // NAVIGATION
@@ -743,7 +576,7 @@ function startEstimator() {
   goTo(1);
 }
 function goTo(n) {
-  ['step1','step2','step3','step4','step5','stepResults'].forEach(id => document.getElementById(id).classList.add('hidden'));
+  ['step1','step2','step3','step4','stepResults'].forEach(id => document.getElementById(id).classList.add('hidden'));
   const el = document.getElementById(n === 'results' ? 'stepResults' : 'step'+n);
   el.classList.remove('hidden'); el.classList.remove('fade-in');
   void el.offsetWidth; el.classList.add('fade-in');
@@ -773,13 +606,12 @@ function calculate() {
   renderResults(); goTo('results');
 }
 function restart() {
-  Object.assign(S,{level:null,residency:null,sport:'',housing:null,athleticAid:0,gpa:null,pell:null,scholarship:null,includeAcademic:true,major:'',isSemester:false});
+  Object.assign(S,{level:null,residency:null,sport:'',housing:null,athleticAid:0,gpa:null,pell:null,scholarship:null,includeAcademic:true,isSemester:false});
   document.querySelectorAll('.opt-card').forEach(c=>c.classList.remove('sel'));
-  ['sportSel','aidInput','gpaInput','majorSel'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+  ['sportSel','aidInput','gpaInput'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
   document.getElementById('includeCheck').checked = true;
   document.getElementById('semToggle').checked = false;
   ['pellSection','scholBox','deadlineAlert','wueAlert','includeToggle'].forEach(id=>document.getElementById(id).classList.add('hidden'));
-  document.getElementById('majorFeePreview').classList.remove('show');
   goTo(1); renderProgress(1);
 }
 
@@ -844,20 +676,6 @@ function onGpaChange() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// MAJOR SELECTION (Step 5)
-// ═══════════════════════════════════════════════════════════════
-function onMajorChange() {
-  const val = document.getElementById('majorSel').value;
-  S.major = val;
-  const preview = document.getElementById('majorFeePreview');
-  if (!val) { preview.classList.remove('show'); return; }
-  const maj = MAJORS[val];
-  if (!maj) { preview.classList.remove('show'); return; }
-  document.getElementById('mfpAmount').textContent = maj.annualFee > 0 ? `$${maj.annualFee.toLocaleString()} / year` : 'No program fees estimated';
-  preview.classList.add('show');
-}
-
-// ═══════════════════════════════════════════════════════════════
 // SEMESTER TOGGLE
 // ═══════════════════════════════════════════════════════════════
 function toggleSemester() {
@@ -876,7 +694,7 @@ function $$(n) { return '$' + Math.abs(n).toLocaleString('en-US',{minimumFractio
 function adj(n) { return S.isSemester ? Math.round(n/2) : n; }
 
 function renderResults() {
-  const { level, residency, housing, athleticAid, scholarship, includeAcademic, major } = S;
+  const { level, residency, housing, athleticAid, scholarship, includeAcademic } = S;
   const coa    = COA[level][residency][housing];
   const NEZ    = housing==='offcampus' ? 1200 : 0;
   const coaTotal = coa.total + NEZ;
@@ -884,9 +702,6 @@ function renderResults() {
   const totalAid = athleticAid + acadAid;
   const remaining = Math.max(0, coaTotal - totalAid);
   const overCOA   = totalAid > coaTotal;
-  const majData   = major ? MAJORS[major] : null;
-  const progFee   = majData ? majData.annualFee : 0;
-  const grandTotal = Math.max(0, remaining) + progFee;
   const label = S.isSemester ? 'Per Semester' : 'Full Academic Year';
 
   const resMap = { resident:'Idaho Resident', nonresident:'Non-Resident', international:'International' };
@@ -923,11 +738,6 @@ function renderResults() {
   const zeroOut = overCOA || remaining===0;
   html+=`<tr class="total-row ${zeroOut?'zero':''}"><td>Estimated Remaining Cost to Athlete</td><td>${zeroOut?'$0':$$(adj(remaining))}</td></tr>`;
 
-  if (progFee>0 && majData) {
-    html+=`<tr class="sec-head"><td colspan="2">Additional Program Fees — Athlete's Responsibility</td></tr>
-    <tr class="data-row prog-fee"><td>${majData.name}</td><td>+ ${$$(adj(progFee))}</td></tr>
-    <tr class="grand-total"><td>Total Estimated Out-of-Pocket</td><td>${$$(adj(grandTotal))}</td></tr>`;
-  }
   html+=`</tbody>`;
 
   document.getElementById('rTable').innerHTML = html;
